@@ -1,0 +1,10 @@
+10-39 
+
+box
+während lap
+nach erstem lap (aus boxe, müsste ungültig sein)
+nach dem ersten gültigen lap
+vor gültigem 2ten lap
+nach gültigem 2ten lap
+lap invalidated
+lap finish (invalid)
