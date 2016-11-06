@@ -4,9 +4,9 @@
     "debugType": "portable",
     "emitEntryPoint": true
   },
-  "dependencies": 
-  {
-    "FluentScheduler": "5.0.0"
+  "dependencies": {
+    "FluentScheduler": "5.0.0",
+    "ServiceStack.Text.Core": "1.0.24"
   },
   "frameworks": {
     "netcoreapp1.0": {
