@@ -1,52 +1,59 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 
 using FluentScheduler;
+using Microsoft.Extensions.Logging;
 
-using ServiceStack;
+using SimpleInjector;
 
 namespace RaceParty.FlagMan.ProjectCars
 {
     public class Program
     {
+        private static ILogger Log;
+
         public static void Main(string[] args)
         {
-            Console.WriteLine("Starting Race Party");
+            var logFactory = InitializeLogginging();
+
+            var container = new Container();
+            container.RegisterSingleton(logFactory);
+            container.RegisterSingleton(new RecordLapTimesJobState());
+            container.RegisterSingleton(new RaceControlClient("http://localhost:5000", logFactory));
+
+            Log.LogInformation("Starting FlagMan for project cars...");
+            
             var registry = new Registry();
-            //registry.Schedule<RecordLapTimesOnButtonPressJob>().ToRunNow();
+            registry.Schedule<RecordLapTimesJob>().NonReentrant().ToRunNow().AndEvery(2).Seconds();
 
-            //JobManager.Initialize(registry);
+            JobManager.JobFactory = new SimpleInjectorJobFactory(container);
+            JobManager.Initialize(registry);
 
-            var counter = 0;
-            var session = DateTime.Now.ToString("hh-mm-ss");
-        
+            Log.LogInformation("Press esc to exit.");
+
             while (true)
             {
-                var input = Console.ReadKey();  
+                var input = Console.ReadKey();
 
-                if (input.Key == ConsoleKey.Spacebar)
-                {
-                    var filename = $"data/{session}_{counter:000}.json";
-
-                    var watch = new Stopwatch();
-                    watch.Start();
-                    File.WriteAllText(filename, "http://192.168.1.15:8080/crest/v1/api?timings=true&vehicleInformation=true&eventInformation=true".GetStringFromUrl());
-                    watch.Stop();
-
-                    Console.WriteLine($"Writing {filename} in {watch.ElapsedMilliseconds} ms.");
-
-                    //Console.WriteLine("gugus " + System.Threading.Thread.CurrentThread.ManagedThreadId);
-                }
-                else if (input.Key == ConsoleKey.Escape)
-                {
-                    Console.WriteLine("Finish!");
-
+                if (input.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
-                }
-
-                ++counter;
             }
+        }
+
+        private static ILoggerFactory InitializeLogginging()
+        {
+            var factory = new LoggerFactory()
+                .WithFilter(new FilterLoggerSettings
+                {
+                    { "Microsoft", LogLevel.Warning },
+                    { "System", LogLevel.Warning },
+                    { "RaceParty.FlagMan.ProjectCars.Program", LogLevel.Debug }
+                });
+
+            factory.AddConsole();
+            
+            Log = factory.CreateLogger<Program>();
+
+            return factory;
         }
     }
 }

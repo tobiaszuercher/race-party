@@ -113,52 +113,52 @@ namespace RaceParty.FlagMan.ProjectCars
     public class Timings
     {
         [DataMember(Name = "mBestLapTime")]
-        public int MBestLapTime { get; set; }
+        public double MBestLapTime { get; set; }
 
         [DataMember(Name = "mCurrentSector1Time")]
-        public int MCurrentSector1Time { get; set; }
+        public double MCurrentSector1Time { get; set; }
 
         [DataMember(Name = "mCurrentSector2Time")]
-        public int MCurrentSector2Time { get; set; }
+        public double MCurrentSector2Time { get; set; }
 
         [DataMember(Name = "mCurrentSector3Time")]
-        public int MCurrentSector3Time { get; set; }
+        public double MCurrentSector3Time { get; set; }
 
         [DataMember(Name = "mCurrentTime")]
         public double MCurrentTime { get; set; }
 
         [DataMember(Name = "mEventTimeRemaining")]
-        public int MEventTimeRemaining { get; set; }
+        public double MEventTimeRemaining { get; set; }
 
         [DataMember(Name = "mFastestSector1Time")]
-        public int MFastestSector1Time { get; set; }
+        public double MFastestSector1Time { get; set; }
 
         [DataMember(Name = "mFastestSector2Time")]
-        public int MFastestSector2Time { get; set; }
+        public double MFastestSector2Time { get; set; }
 
         [DataMember(Name = "mFastestSector3Time")]
-        public int MFastestSector3Time { get; set; }
+        public double MFastestSector3Time { get; set; }
 
         [DataMember(Name = "mLapInvalidated")]
         public bool MLapInvalidated { get; set; }
 
         [DataMember(Name = "mLastLapTime")]
-        public int MLastLapTime { get; set; }
+        public double MLastLapTime { get; set; }
 
         [DataMember(Name = "mPersonalFastestLapTime")]
-        public int MPersonalFastestLapTime { get; set; }
+        public double MPersonalFastestLapTime { get; set; }
 
         [DataMember(Name = "mPersonalFastestSector1Time")]
-        public int MPersonalFastestSector1Time { get; set; }
+        public double MPersonalFastestSector1Time { get; set; }
 
         [DataMember(Name = "mPersonalFastestSector2Time")]
-        public int MPersonalFastestSector2Time { get; set; }
+        public double MPersonalFastestSector2Time { get; set; }
 
         [DataMember(Name = "mPersonalFastestSector3Time")]
-        public int MPersonalFastestSector3Time { get; set; }
+        public double MPersonalFastestSector3Time { get; set; }
 
         [DataMember(Name = "mSplitTime")]
-        public int MSplitTime { get; set; }
+        public double MSplitTime { get; set; }
 
         [DataMember(Name = "mSplitTimeAhead")]
         public double MSplitTimeAhead { get; set; }
@@ -434,5 +434,11 @@ namespace RaceParty.FlagMan.ProjectCars
 
         [DataMember(Name = "wheelsAndTyres")]
         public WheelsAndTyres WheelsAndTyres { get; set; }
+
+        public ProjectCarsResponse()
+        {
+            VehicleInformation = new VehicleInformation();
+            Timings = new Timings();
+        }
     }
 }

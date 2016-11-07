@@ -9,8 +9,10 @@
     "Microsoft.AspNetCore.Owin": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Nancy": "2.0.0-barneyrubble",
-    "RavenDB.Client": "3.5.0-rc-*"
-    
+    "RavenDB.Client": "3.5.0-rc-*",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0",
+    "RaceParty.RaceControl.ServiceModel": "1.0.0-*",
+    "ServiceStack.Text.Core": "1.0.27"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel"

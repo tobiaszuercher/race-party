@@ -1,1 +1,36 @@
-{"vehicleInformation":{"mCarName":"Formula C","mCarClassName":"FC"},"eventInformation":{"mLapsInEvent":0,"mTrackLocation":"N�rburgring","mTrackVariation":"Sprint","mTrackLength":3603.18},"timings":{"mLapInvalidated":false,"mBestLapTime":87.7061,"mLastLapTime":91.2969,"mCurrentTime":3.05566,"mSplitTimeAhead":-1,"mSplitTimeBehind":-1,"mSplitTime":0.0947266,"mEventTimeRemaining":-1,"mPersonalFastestLapTime":87.007,"mWorldFastestLapTime":78.433,"mCurrentSector1Time":3.05566,"mCurrentSector2Time":32.5029,"mCurrentSector3Time":19.729,"mFastestSector1Time":36.2307,"mFastestSector2Time":31.8411,"mFastestSector3Time":19.6343,"mPersonalFastestSector1Time":35.755,"mPersonalFastestSector2Time":31.465,"mPersonalFastestSector3Time":19.787,"mWorldFastestSector1Time":32.026,"mWorldFastestSector2Time":29.014,"mWorldFastestSector3Time":17.393}}
+{
+    "vehicleInformation": {
+        "mCarName": "Formula C",
+        "mCarClassName": "FC"
+    },
+    "eventInformation": {
+        "mLapsInEvent": 0,
+        "mTrackLocation": "N�rburgring",
+        "mTrackVariation": "Sprint",
+        "mTrackLength": 3603.18
+    },
+    "timings": {
+        "mLapInvalidated": false,
+        "mBestLapTime": 87.7061,
+        "mLastLapTime": 91.2969,
+        "mCurrentTime": 3.05566,
+        "mSplitTimeAhead": -1,
+        "mSplitTimeBehind": -1,
+        "mSplitTime": 0.0947266,
+        "mEventTimeRemaining": -1,
+        "mPersonalFastestLapTime": 87.007,
+        "mWorldFastestLapTime": 78.433,
+        "mCurrentSector1Time": 3.05566,
+        "mCurrentSector2Time": 32.5029,
+        "mCurrentSector3Time": 19.729,
+        "mFastestSector1Time": 36.2307,
+        "mFastestSector2Time": 31.8411,
+        "mFastestSector3Time": 19.6343,
+        "mPersonalFastestSector1Time": 35.755,
+        "mPersonalFastestSector2Time": 31.465,
+        "mPersonalFastestSector3Time": 19.787,
+        "mWorldFastestSector1Time": 32.026,
+        "mWorldFastestSector2Time": 29.014,
+        "mWorldFastestSector3Time": 17.393
+    }
+}

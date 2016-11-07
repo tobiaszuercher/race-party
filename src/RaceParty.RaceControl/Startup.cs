@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Nancy;
 using Nancy.Owin;
 
 namespace NancyApplication
@@ -13,7 +14,7 @@ namespace NancyApplication
             // });
 
             app.UseOwin(x => x.UseNancy());
-            
+        
             // app.UseStaticFiles();
         }
     }
