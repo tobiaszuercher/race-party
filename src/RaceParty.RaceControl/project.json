@@ -12,7 +12,9 @@
     "RavenDB.Client": "3.5.0-rc-*",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0",
     "RaceParty.RaceControl.ServiceModel": "1.0.0-*",
-    "ServiceStack.Text.Core": "1.0.27"
+    "ServiceStack.Text.Core": "1.0.27",
+    "Microsoft.Extensions.Logging.Console": "1.0.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel"
