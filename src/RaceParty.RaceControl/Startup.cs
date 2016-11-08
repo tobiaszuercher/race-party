@@ -8,10 +8,7 @@ namespace NancyApplication
     {
         public  void Configure(IApplicationBuilder app)
         {
-            // app.Map("/api", api =>
-            // {
-            //     api.UseOwin(x => x.UseNancy());
-            // });
+            
 
             app.UseOwin(x => x.UseNancy());
         
