@@ -2,8 +2,6 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
-using NancyApplication;
-
 namespace RaceParty.RaceControl
 {
     public class Program

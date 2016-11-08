@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Nancy;
 using Nancy.Owin;
 
-namespace NancyApplication
+namespace RaceParty.RaceControl
 {
     public class Startup
     {
