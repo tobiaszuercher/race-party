@@ -6,7 +6,6 @@
 
         public RecordLapTimesJobState()
         {
-            Previous = new ProjectCarsResponse();
         }
     }
 }

@@ -27,10 +27,10 @@ namespace RaceParty.RaceControl
             Get("/drivers",
                 args =>
                 {
-                    return _session.Query<LapTime>().ToList();
+                    return _session.Query<Driver>().ToList();
                 });
 
-            Post("/driver/register", _ =>
+            Post("/drivers", _ =>
             {
                 var body = Request.Body.AsString();
                 var request = body.FromJson<Driver>();
@@ -39,8 +39,8 @@ namespace RaceParty.RaceControl
 
                 if (driver == null)
                 {
-                    Log.LogInformation($"Register driver {driver.Name} for {driver.Hostname}.");
-                    session.Store(driver);
+                    Log.LogInformation($"Register driver {request.Name} for {request.Hostname}.");
+                    session.Store(request);
                     session.SaveChanges();
 
                     return HttpStatusCode.Created;
@@ -55,24 +55,24 @@ namespace RaceParty.RaceControl
                 }
             });
 
-            Post("/driver/deregister",
-                _ =>
+            Delete("/drivers/{hostname}",
+                parameters =>
                     {
-                        var body = Request.Body.AsString();
-                        var request = body.FromJson<Driver>();
+                        var hostnameString = (string)parameters.hostname;
 
-                        var driver = session.Query<Driver>().Where(d => d.Hostname == request.Hostname).FirstOrDefault();
+                        var driver = session.Query<Driver>().Where(d => d.Hostname == hostnameString).FirstOrDefault();
 
                         if (driver != null)
                         {
-                            Log.LogInformation($"{driver.Name} deregistered.");
+                            Log.LogInformation($"{driver.Name} went offline.");
                             session.Delete(driver);
+                            session.SaveChanges();
 
                             return HttpStatusCode.OK;
                         }
                         else
                         {
-                            Log.LogInformation($"{driver.Name} deregistered but no driver found.");
+                            Log.LogInformation($"{hostnameString} went offline but no driver found.");
                             return HttpStatusCode.NotModified;
                         }
                     });

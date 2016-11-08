@@ -42,7 +42,7 @@ namespace RaceParty.FlagMan.ProjectCars
             }
 
             // it's a valid lap.
-            if (response.Timings.MLastLapTime != _jobState.Previous.Timings.MLastLapTime)
+            if (_jobState.Previous != null && response.Timings.MLastLapTime != _jobState.Previous.Timings.MLastLapTime)
             {
                 // we have a different last lap time -> cogratulation! better time!
                 if (!_jobState.Previous.Timings.MLapInvalidated)

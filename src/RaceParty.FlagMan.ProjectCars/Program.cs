@@ -23,7 +23,7 @@ namespace RaceParty.FlagMan.ProjectCars
             Log.LogInformation("Starting FlagMan for project cars...");
             
             var registry = new Registry();
-            registry.Schedule<RecordLapTimesJob>().NonReentrant().ToRunNow().AndEvery(2).Seconds();
+            registry.Schedule<RecordLapTimesJob>().NonReentrant().ToRunEvery(2).Seconds();
 
             JobManager.JobFactory = new SimpleInjectorJobFactory(container);
             JobManager.Initialize(registry);

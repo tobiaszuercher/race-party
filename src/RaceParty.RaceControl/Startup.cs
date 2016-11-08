@@ -12,10 +12,11 @@ namespace RaceParty.RaceControl
         {
             loggerFactory.AddConsole();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            MyNancyBootStrapper.LogFactory = loggerFactory; // LOL
+
+   
+            app.UseDeveloperExceptionPage();
+  
 
             app.UseOwin(x => x.UseNancy());
         }
