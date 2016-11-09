@@ -35,6 +35,7 @@ namespace RaceParty.RaceControl
         {
             base.ConfigureRequestContainer(container, context);
             container.Register(GenerateRavenSession(container));
+            
         }
 
         private Raven.Client.IDocumentSession GenerateRavenSession(TinyIoCContainer container)
