@@ -12,6 +12,13 @@ namespace RaceParty.RaceControl
         {
             loggerFactory.AddConsole();
 
+            loggerFactory.WithFilter(new FilterLoggerSettings
+                {
+                    { "Microsoft", LogLevel.Warning },
+                    { "System", LogLevel.Warning },
+                    { "ToDoApi", LogLevel.Debug }
+                });
+
             MyNancyBootStrapper.LogFactory = loggerFactory; // LOL
 
    
