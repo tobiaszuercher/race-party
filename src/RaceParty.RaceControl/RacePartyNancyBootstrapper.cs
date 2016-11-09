@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Nancy;
+using Nancy.Configuration;
 using Nancy.TinyIoc;
 
 namespace RaceParty.RaceControl
@@ -42,6 +43,12 @@ namespace RaceParty.RaceControl
             var session = store.OpenSession();
 
             return session;
+        }
+
+        public override void Configure(INancyEnvironment environment)
+        {
+            base.Configure(environment);
+            environment.Tracing(enabled: false, displayErrorTraces: true);
         }
     }
 }
