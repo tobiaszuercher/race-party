@@ -9,7 +9,7 @@
     "Microsoft.AspNetCore.Owin": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Nancy": "2.0.0-barneyrubble",
-    "RavenDB.Client": "3.5.0-rc-*",
+    "RavenDB.Client": "3.5.0",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0",
     "RaceParty.RaceControl.ServiceModel": {
       "target": "project"
