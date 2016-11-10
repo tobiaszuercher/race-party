@@ -1,4 +1,5 @@
 <template>
+    <require from="timing-converter"></require>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -16,7 +17,7 @@
                 <td>${laptime.trackName}</td>
                 <td>${laptime.carName}</td>
                 <td>${laptime.carClass}</td>
-                <td>${laptime.time.toString()}</td> 
+                <td>${laptime.time | timing}</td> 
             </tr>
         </tbody>
     </table>

@@ -34,8 +34,4 @@ export class TimeSpan {
     public minutes: number;
     public seconds: number;
     public milliseconds: number;
-
-    public toString(): string {
-        return "bla";
-    }
 }
