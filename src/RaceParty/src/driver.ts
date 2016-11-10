@@ -20,5 +20,5 @@ export class Driver {
 
 export class DriverDto {
     public hostname: string;
-    public name: string;
+    public driver: string;
 }
