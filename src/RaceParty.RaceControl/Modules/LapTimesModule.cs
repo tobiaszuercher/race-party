@@ -34,9 +34,7 @@ namespace RaceParty.RaceControl
             {
                 var body = Request.Body.AsString();
                 var laptime = body.FromJson<LapTime>();
-
-                //var driver = session.Query<Driver>().Where(d => d.Hostname == laptime.RecordedBy.HostName).FirstOrDefault();
-
+                
                 using (var db = dbConnectionFactory.Open())
                 {
                     var driver = db.Select<Driver>(d => d.Hostname == laptime.Hostname).FirstOrDefault();
