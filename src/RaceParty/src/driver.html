@@ -9,9 +9,9 @@
         </thead>
         
         <tbody>
-            <tr>
-                <td>ZRHN2049</td>
-                <td>Tobi</td>
+            <tr repeat.for="driver of drivers">
+                <td>${driver.hostname}</td>
+                <td>${driver.name}</td>
             </tr>
         </tbody>
     </table>

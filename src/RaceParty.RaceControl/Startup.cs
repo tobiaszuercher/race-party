@@ -26,6 +26,8 @@ namespace RaceParty.RaceControl
   
 
             app.UseOwin(x => x.UseNancy());
+
+            
         }
     }
 }

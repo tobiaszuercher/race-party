@@ -5,16 +5,18 @@
                 <th>Driver</th>
                 <th>Track</th>
                 <th>Car</th>
+                <th>Car Class</th>
                 <th>Time</th>
             </tr>
         </thead>
         
         <tbody>
-            <tr>
-                <td>Tobi</td>
-                <td>Nürburgring Sprint</td>
-                <td>Formula C</td>
-                <td>1:04:03</td>
+            <tr repeat.for="laptime of laptimes">
+                <td>${laptime.createdBy.name}</td>
+                <td>${laptime.trackName}</td>
+                <td>${laptime.carName}</td>
+                <td>${laptime.carClass}</td>
+                <td>${laptime.time.toString()}</td> 
             </tr>
         </tbody>
     </table>
