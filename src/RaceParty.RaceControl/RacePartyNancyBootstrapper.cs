@@ -4,6 +4,7 @@ using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Configuration;
 using Nancy.TinyIoc;
+using ServiceStack.OrmLite;
 
 namespace RaceParty.RaceControl
 {
@@ -16,6 +17,10 @@ namespace RaceParty.RaceControl
             base.ConfigureApplicationContainer(container);
             container.Register(GenerateRavenDocStore());
             container.Register(LogFactory);
+            
+            var factory = new OrmLiteConnectionFactory("db.sqlite", SqliteDialect.Provider);
+            container.Register(factory);
+            var bla = new Driver();
         }
 
         private Raven.Client.IDocumentStore GenerateRavenDocStore()
