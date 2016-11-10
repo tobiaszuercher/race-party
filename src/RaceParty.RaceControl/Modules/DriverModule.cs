@@ -10,6 +10,8 @@ using RaceParty.RaceControl.ServiceModel;
 using Raven.Abstractions.Logging;
 
 using ServiceStack;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace RaceParty.RaceControl
 {
@@ -19,7 +21,7 @@ namespace RaceParty.RaceControl
 
         private static ILogger Log;
 
-        public DriverModule(Raven.Client.IDocumentSession session, ILoggerFactory logFactory)
+        public DriverModule(IDbConnectionFactory dbFactory, ILoggerFactory logFactory, Raven.Client.IDocumentSession session)
         {
             _session = session;
             Log = logFactory.CreateLogger<DriverModule>();
@@ -27,7 +29,10 @@ namespace RaceParty.RaceControl
             Get("/drivers",
                 args =>
                 {
-                    return _session.Query<Driver>().ToList();
+                    using (var db = dbFactory.Open())
+                    {
+                        return db.Select<Driver>();
+                    }
                 });
 
             Post("/drivers", _ =>
@@ -35,23 +40,26 @@ namespace RaceParty.RaceControl
                 var body = Request.Body.AsString();
                 var request = body.FromJson<Driver>();
 
-                var driver = session.Query<Driver>().Where(d => d.Hostname == request.Hostname).FirstOrDefault();
-
-                if (driver == null)
+                using (var db = dbFactory.Open())
                 {
-                    Log.LogInformation($"Register driver {request.Name} for {request.Hostname}.");
-                    session.Store(request);
-                    session.SaveChanges();
+                    var driver = db.Select<Driver>(d => d.Hostname == request.Hostname).FirstOrDefault();
 
-                    return HttpStatusCode.Created;
-                }
-                else
-                {
-                    Log.LogInformation($"Change driver to {driver.Name} for {driver.Hostname}.");
-                    driver.Name = request.Name;
-                    session.SaveChanges();
+                    if (driver == null)
+                    {
+                        Log.LogInformation($"Register driver {request.Name} for {request.Hostname}.");
+                        session.Store(request);
+                        session.SaveChanges();
 
-                    return HttpStatusCode.OK;
+                        return HttpStatusCode.Created;
+                    }
+                    else
+                    {
+                        Log.LogInformation($"Change driver to {driver.Name} for {driver.Hostname}.");
+                        driver.Name = request.Name;
+                        session.SaveChanges();
+
+                        return HttpStatusCode.OK;
+                    }
                 }
             });
 
@@ -60,20 +68,23 @@ namespace RaceParty.RaceControl
                     {
                         var hostnameString = (string)parameters.hostname;
 
-                        var driver = session.Query<Driver>().Where(d => d.Hostname == hostnameString).FirstOrDefault();
-
-                        if (driver != null)
+                        using (var db = dbFactory.Open())
                         {
-                            Log.LogInformation($"{driver.Name} went offline.");
-                            session.Delete(driver);
-                            session.SaveChanges();
+                            var driver = db.Select<Driver>(d => d.Hostname == hostnameString).FirstOrDefault();
 
-                            return HttpStatusCode.OK;
-                        }
-                        else
-                        {
-                            Log.LogInformation($"{hostnameString} went offline but no driver found.");
-                            return HttpStatusCode.NotModified;
+                            if (driver != null)
+                            {
+                                Log.LogInformation($"{driver.Name} went offline.");
+                                session.Delete(driver);
+                                session.SaveChanges();
+
+                                return HttpStatusCode.OK;
+                            }
+                            else
+                            {
+                                Log.LogInformation($"{hostnameString} went offline but no driver found.");
+                                return HttpStatusCode.NotModified;
+                            }
                         }
                     });
         }

@@ -4,11 +4,12 @@ using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Configuration;
 using Nancy.TinyIoc;
+using RaceParty.RaceControl.ServiceModel;
 using ServiceStack.OrmLite;
 
 namespace RaceParty.RaceControl
 {
-    public class MyNancyBootStrapper : DefaultNancyBootstrapper
+    public class RacePartyNancyBootstrapper : DefaultNancyBootstrapper
     {
         public static ILoggerFactory LogFactory { get; set; }
 
@@ -18,9 +19,14 @@ namespace RaceParty.RaceControl
             container.Register(GenerateRavenDocStore());
             container.Register(LogFactory);
             
-            var factory = new OrmLiteConnectionFactory("db.sqlite", SqliteDialect.Provider);
+            var factory = new OrmLiteConnectionFactory("race-party.sqlite", SqliteDialect.Provider);
             container.Register(factory);
-            var bla = new Driver();
+            
+            using (var db = factory.Open())
+            {
+                db.CreateTableIfNotExists<Driver>();
+                db.CreateTableIfNotExists<LapTime>();
+            }
         }
 
         private Raven.Client.IDocumentStore GenerateRavenDocStore()

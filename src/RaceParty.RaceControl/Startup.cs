@@ -19,7 +19,7 @@ namespace RaceParty.RaceControl
                     { "ToDoApi", LogLevel.Debug }
                 });
 
-            MyNancyBootStrapper.LogFactory = loggerFactory; // LOL
+            RacePartyNancyBootstrapper.LogFactory = loggerFactory; // LOL
 
    
             app.UseDeveloperExceptionPage();
