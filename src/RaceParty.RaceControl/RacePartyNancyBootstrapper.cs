@@ -5,6 +5,8 @@ using Nancy.Bootstrapper;
 using Nancy.Configuration;
 using Nancy.TinyIoc;
 using RaceParty.RaceControl.ServiceModel;
+
+using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
 namespace RaceParty.RaceControl
@@ -20,7 +22,7 @@ namespace RaceParty.RaceControl
             container.Register(LogFactory);
             
             var factory = new OrmLiteConnectionFactory("race-party.sqlite", SqliteDialect.Provider);
-            container.Register(factory);
+            container.Register<IDbConnectionFactory>(factory);
             
             using (var db = factory.Open())
             {

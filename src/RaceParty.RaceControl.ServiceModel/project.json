@@ -11,7 +11,8 @@
         "Microsoft.NETCore.App": {
           "type": "platform",
           "version": "1.0.0"
-        }
+        },
+        "ServiceStack.Core":  "1.0.*" 
       },
       "imports": [
         "netstandard1.6"

@@ -7,23 +7,18 @@ using Nancy.Extensions;
 
 using RaceParty.RaceControl.ServiceModel;
 
-using Raven.Abstractions.Logging;
-
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace RaceParty.RaceControl
+namespace RaceParty.RaceControl.Modules
 {
     public class DriverModule : NancyModule
     {
-        private Raven.Client.IDocumentSession _session;
-
         private static ILogger Log;
 
-        public DriverModule(IDbConnectionFactory dbFactory, ILoggerFactory logFactory, Raven.Client.IDocumentSession session)
+        public DriverModule(IDbConnectionFactory dbFactory, ILoggerFactory logFactory)
         {
-            _session = session;
             Log = logFactory.CreateLogger<DriverModule>();
 
             Get("/drivers",
@@ -47,8 +42,7 @@ namespace RaceParty.RaceControl
                     if (driver == null)
                     {
                         Log.LogInformation($"Register driver {request.Name} for {request.Hostname}.");
-                        session.Store(request);
-                        session.SaveChanges();
+                        db.Insert(request);
 
                         return HttpStatusCode.Created;
                     }
@@ -56,7 +50,8 @@ namespace RaceParty.RaceControl
                     {
                         Log.LogInformation($"Change driver to {driver.Name} for {driver.Hostname}.");
                         driver.Name = request.Name;
-                        session.SaveChanges();
+
+                        db.Update(driver);
 
                         return HttpStatusCode.OK;
                     }
@@ -75,8 +70,7 @@ namespace RaceParty.RaceControl
                             if (driver != null)
                             {
                                 Log.LogInformation($"{driver.Name} went offline.");
-                                session.Delete(driver);
-                                session.SaveChanges();
+                                db.Delete<Driver>(d => d.Hostname == driver.Hostname);
 
                                 return HttpStatusCode.OK;
                             }

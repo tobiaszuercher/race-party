@@ -57,11 +57,7 @@ namespace RaceParty.FlagMan.ProjectCars
                                                               CarClass = response.VehicleInformation.MCarName,
                                                               CarName = response.VehicleInformation.MCarClassName,
                                                               CreatedAt = DateTime.UtcNow,
-                                                              RecordedBy = new RaceControl.ServiceModel.FlagMan()
-                                                                               {
-                                                                                   Driver = "",
-                                                                                   HostName = Environment.MachineName,
-                                                                               },
+                                                              Hostname = Environment.MachineName,
                                                               TrackName = response.EventInformation.MTrackLocation + " " + response.EventInformation.MTrackVariation
                                                           });
                 }

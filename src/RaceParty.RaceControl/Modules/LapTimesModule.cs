@@ -7,27 +7,27 @@ using Nancy.Extensions;
 
 using RaceParty.RaceControl.ServiceModel;
 
-using Raven.Client;
-
 using ServiceStack;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace RaceParty.RaceControl
 {
     public class LapTimesModule : NancyModule
     {
-        private IDocumentSession _session;
-
         private static ILogger Log;
 
-        public LapTimesModule(IDocumentSession session, ILoggerFactory loggerFactory)
+        public LapTimesModule(ILoggerFactory loggerFactory, IDbConnectionFactory dbConnectionFactory)
         {
-            _session = session;
             Log = loggerFactory.CreateLogger<LapTimesModule>();
 
             Get("/laptimes",
                 args =>
                     {
-                        return _session.Query<LapTime>().ToList();
+                        using (var db = dbConnectionFactory.Open())
+                        {
+                            return db.Select<LapTime>().OrderBy(lap => lap.TrackName).ThenBy(lap => lap.Time);
+                        }
                     });
 
             Post("/laptimes", args =>
@@ -35,23 +35,28 @@ namespace RaceParty.RaceControl
                 var body = Request.Body.AsString();
                 var laptime = body.FromJson<LapTime>();
 
-                var driver = session.Query<Driver>().Where(d => d.Hostname == laptime.RecordedBy.HostName).FirstOrDefault();
+                //var driver = session.Query<Driver>().Where(d => d.Hostname == laptime.RecordedBy.HostName).FirstOrDefault();
 
-                if (driver != null)
+                using (var db = dbConnectionFactory.Open())
                 {
-                    laptime.RecordedBy.Driver = driver.Name;
+                    var driver = db.Select<Driver>(d => d.Hostname == laptime.Hostname).FirstOrDefault();
+
+                    if (driver != null)
+                    {
+                        laptime.DriverName = driver.Name;
+                    }
+                    else
+                    {
+                        laptime.DriverName = "unknown";
+                        Log.LogWarning($"No driver found for {driver.Hostname}");
+                    }
+
+                    Log.LogInformation($"Storing laptime {laptime.Time} for {driver.Name} ({driver.Hostname})");
+
+                    db.Insert(laptime);
+
+                    return HttpStatusCode.Created;
                 }
-                else
-                {
-                    Log.LogWarning($"No driver found for {driver.Hostname}");
-                }
-
-                Log.LogInformation($"Storing laptime {laptime.Time} for {driver.Name} ({driver.Hostname})");
-
-                session.Store(laptime);
-                session.SaveChanges();
-
-                return HttpStatusCode.Created;
             });
         }
     }
